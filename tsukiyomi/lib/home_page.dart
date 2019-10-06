@@ -37,7 +37,7 @@ class HomePage extends StatelessWidget {
                         'Recently Played',
                         style: TextStyle(
                           color: Colors.white.withOpacity(1.0),
-                          fontSize: 23.0,fontWeight: FontWeight.bold,
+                          fontSize: 23.0,fontFamily: 'Gtek',
                         ),
                       ),
                     ],
