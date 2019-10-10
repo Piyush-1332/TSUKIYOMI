@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tsukiyomi/home_page.dart';
 import 'package:tsukiyomi/browse_page.dart';
 import 'package:tsukiyomi/library_page.dart';
-import 'package:tsukiyomi/login.dart';
+import 'package:tsukiyomi/login2.dart';
 class Start extends StatefulWidget {
   @override
   _StartState createState() => _StartState();
@@ -58,15 +58,15 @@ class _StartState extends State<Start> {
 }
 Widget show(int index){
   switch(index){
-    case 0: return HomePage();
+    case 0: return Homepage();
     break;
     case 1: return Browse();
     break;
     case 2: return Library();
     break;
-    case 3: return Loginpage();
+    case 3: return LoginScreen3();
     break;
-    default: return HomePage();
+    default: return Homepage();
     break;
   }
 }

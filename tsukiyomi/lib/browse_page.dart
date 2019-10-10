@@ -103,7 +103,7 @@ class Browse extends StatelessWidget {
                                     margin: EdgeInsets.symmetric(vertical: 0.0),
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(5.0)),
+                                            BorderRadius.circular(10.0)),
                                     clipBehavior: Clip.antiAlias,
                                     child: Image.network(
                                       'https://www.mobygames.com/images/covers/l/55382-super-mario-advance-4-super-mario-bros-3-game-boy-advance-front-cover.jpg',
@@ -149,7 +149,7 @@ class Browse extends StatelessWidget {
                                     margin: EdgeInsets.symmetric(vertical: 0.0),
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(5.0)),
+                                            BorderRadius.circular(10.0)),
                                     clipBehavior: Clip.antiAlias,
                                     child: Image.network(
                                       'https://www.mobygames.com/images/covers/l/55382-super-mario-advance-4-super-mario-bros-3-game-boy-advance-front-cover.jpg',

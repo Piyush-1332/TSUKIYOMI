@@ -27,14 +27,14 @@ class LoginPageState extends State<Loginpage> {
         padding: const EdgeInsets.all(40.0),
         decoration: BoxDecoration(
             gradient: LinearGradient(
-                colors: [Color(0x990000), Colors.black],
+                colors: [Colors.brown, Colors.black],
                 begin: Alignment.topCenter,
                 end: FractionalOffset(0.3, 0.3))),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              child: Text('TSUKIYOMI',style: TextStyle(fontSize: 50.0,fontWeight: FontWeight.bold,color: Colors.white54)),
+              child: Text('Tsukiyomi',style: TextStyle(fontSize: 50.0,fontWeight: FontWeight.bold,color: Colors.white54)),
             ),
             SizedBox(
               height: screensize.height/14,
