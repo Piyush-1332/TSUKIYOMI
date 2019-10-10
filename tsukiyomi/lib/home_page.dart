@@ -37,7 +37,7 @@ class Homepage extends StatelessWidget {
                         'Recently Played',
                         style: TextStyle(
                           color: Colors.white.withOpacity(1.0),
-                          fontSize: 23.0,fontFamily: 'Gtek',
+                          fontSize: 40.0,fontFamily: 'Mozart'
                         ),
                       ),
                     ],
@@ -74,7 +74,7 @@ class Homepage extends StatelessWidget {
                         'Made For You',
                         style: TextStyle(
                           color: Colors.white.withOpacity(1.0),
-                          fontSize: 23.0,fontWeight: FontWeight.bold,
+                          fontSize: 40.0,fontFamily: 'Mozart'
                         ),
                       ),
                     ],
@@ -111,7 +111,7 @@ class Homepage extends StatelessWidget {
                         'Popular & Trending',
                         style: TextStyle(
                           color: Colors.white.withOpacity(1.0),
-                          fontSize: 23.0,fontWeight: FontWeight.bold,
+                          fontSize: 40.0,fontFamily: 'Mozart'
                         ),
                       ),
                     ],

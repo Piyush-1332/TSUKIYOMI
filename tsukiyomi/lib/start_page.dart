@@ -43,7 +43,7 @@ class _StartState extends State<Start> {
             ),
             new BottomNavigationBarItem(
               icon: Icon(Icons.file_download),
-              title: Text('Your Library'),
+              title: Text('Library'),
               
             ),
             new BottomNavigationBarItem(
