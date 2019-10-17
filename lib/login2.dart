@@ -851,11 +851,13 @@ class _LoginScreen3State extends State<LoginScreen3>
 //          ],
 //        ),
 //      ),
-        child: PageView(
-          controller: _controller,
-          physics: new AlwaysScrollableScrollPhysics(),
-          children: <Widget>[loginpage(), homePage(), signupPage()],
-          scrollDirection: Axis.horizontal,
-        ));
+child:Text('text')
+        // child: PageView(
+        //   controller: _controller,
+        //   physics: new AlwaysScrollableScrollPhysics(),
+        //   children: <Widget>[loginpage(), homePage(), signupPage()],
+        //   scrollDirection: Axis.horizontal,
+        // )
+        );
   }
 }

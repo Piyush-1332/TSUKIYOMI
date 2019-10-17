@@ -1,4 +1,4 @@
-package com.example.tsukiyomi
+package app.tsukiyomi.tsukiyomi
 
 import android.os.Bundle
 
