@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:device_apps/device_apps.dart';
 
 class Homepage extends StatelessWidget {
   @override
@@ -24,7 +25,10 @@ class Homepage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
-                      Icon(FontAwesomeIcons.gamepad),
+                      IconButton(
+                        onPressed: () => print('Hello'),
+                        icon: Icon(FontAwesomeIcons.gamepad),
+                      )
                     ],
                   ),
                 ),
@@ -36,9 +40,9 @@ class Homepage extends StatelessWidget {
                       Text(
                         'Recently Played',
                         style: TextStyle(
-                          color: Colors.white.withOpacity(1.0),
-                          fontSize: 40.0,fontFamily: 'Mozart'
-                        ),
+                            color: Colors.white.withOpacity(1.0),
+                            fontSize: 40.0,
+                            fontFamily: 'Mozart'),
                       ),
                     ],
                   ),
@@ -66,16 +70,16 @@ class Homepage extends StatelessWidget {
                 ),
                 /*comment*/
                 Container(
-                  padding: EdgeInsets.fromLTRB(20.0,20.0, 0.0, 0.0),
+                  padding: EdgeInsets.fromLTRB(20.0, 20.0, 0.0, 0.0),
                   height: 70.0,
                   child: Column(
                     children: <Widget>[
                       Text(
                         'Made For You',
                         style: TextStyle(
-                          color: Colors.white.withOpacity(1.0),
-                          fontSize: 40.0,fontFamily: 'Mozart'
-                        ),
+                            color: Colors.white.withOpacity(1.0),
+                            fontSize: 40.0,
+                            fontFamily: 'Mozart'),
                       ),
                     ],
                   ),
@@ -110,9 +114,9 @@ class Homepage extends StatelessWidget {
                       Text(
                         'Popular & Trending',
                         style: TextStyle(
-                          color: Colors.white.withOpacity(1.0),
-                          fontSize: 40.0,fontFamily: 'Mozart'
-                        ),
+                            color: Colors.white.withOpacity(1.0),
+                            fontSize: 40.0,
+                            fontFamily: 'Mozart'),
                       ),
                     ],
                   ),

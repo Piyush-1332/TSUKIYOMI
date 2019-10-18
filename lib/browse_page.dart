@@ -4,8 +4,14 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class Browse extends StatelessWidget {
+class Browse extends StatefulWidget {
+  @override
+  _BrowseState createState() => _BrowseState();
+}
+
+class _BrowseState extends State<Browse> {
   MediaQueryData queryData;
+
   @override
   Widget build(BuildContext context) {
     queryData = MediaQuery.of(context);
