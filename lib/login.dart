@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart' as http;
 class Loginpage extends StatefulWidget {
   @override
   State createState() => new LoginPageState();
@@ -118,7 +119,7 @@ class LoginPageState extends State<Loginpage> with SingleTickerProviderStateMixi
       };
 
       final PhoneVerificationCompleted verifiedSuccess = (AuthCredential credential){
-          print(credential);
+          // print(credential);
           getUser(sendPhone);
           print('Verified');
       };
@@ -164,6 +165,7 @@ class LoginPageState extends State<Loginpage> with SingleTickerProviderStateMixi
               child: Padding(
                 padding: EdgeInsets.only(),
                 child: TextField(
+                  controller: myController,
                   style: TextStyle(color: Theme.of(context).accentColor),
                   decoration: InputDecoration(
                     hintText: 'Email-Id',
@@ -212,9 +214,8 @@ class LoginPageState extends State<Loginpage> with SingleTickerProviderStateMixi
             ),
             new RaisedButton(
               onPressed: (){
-                if(_formKey.currentState.validate()){
                   verifyPhone();
-                }
+                
               },
               padding: EdgeInsets.only(),
               color: Colors.white,

@@ -1,40 +1,65 @@
 {
-  "project_info": {
-    "project_number": "405353621586",
-    "firebase_url": "https://tsukiyomi-a5a41.firebaseio.com",
-    "project_id": "tsukiyomi-a5a41",
-    "storage_bucket": "tsukiyomi-a5a41.appspot.com"
-  },
-  "client": [
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:405353621586:android:8acd7c91249a4bba8ad78b",
-        "android_client_info": {
-          "package_name": "com.tsukiyomi.app"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "405353621586-lmfq0kh42a50jqbav04lf253en062uvj.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCoP8VRpQnwEAvg8CnHPeqccz35hMbO270"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "405353621586-lmfq0kh42a50jqbav04lf253en062uvj.apps.googleusercontent.com",
-              "client_type": 3
+    "project_info": {
+        "project_number": "405353621586",
+        "firebase_url": "https://tsukiyomi-a5a41.firebaseio.com",
+        "project_id": "tsukiyomi-a5a41",
+        "storage_bucket": "tsukiyomi-a5a41.appspot.com"
+    },
+    "client": [{
+            "client_info": {
+                "mobilesdk_app_id": "1:405353621586:android:cd144ed9844baa818ad78b",
+                "android_client_info": {
+                    "package_name": "app.tsukiyomi.tsukiyomi"
+                }
+            },
+            "oauth_client": [{
+                "client_id": "405353621586-lmfq0kh42a50jqbav04lf253en062uvj.apps.googleusercontent.com",
+                "client_type": 3
+            }],
+            "api_key": [{
+                "current_key": "AIzaSyCoP8VRpQnwEAvg8CnHPeqccz35hMbO270"
+            }],
+            "services": {
+                "appinvite_service": {
+                    "other_platform_oauth_client": [{
+                        "client_id": "405353621586-lmfq0kh42a50jqbav04lf253en062uvj.apps.googleusercontent.com",
+                        "client_type": 3
+                    }]
+                }
             }
-          ]
+        },
+        {
+            "client_info": {
+                "mobilesdk_app_id": "1:405353621586:android:8acd7c91249a4bba8ad78b",
+                "android_client_info": {
+                    "package_name": "com.tsukiyomi.app"
+                }
+            },
+            "oauth_client": [{
+                    "client_id": "405353621586-pvgtqvudhopvmtceoel7rs422drh0fo6.apps.googleusercontent.com",
+                    "client_type": 1,
+                    "android_info": {
+                        "package_name": "com.tsukiyomi.app",
+                        "certificate_hash": "0733fc68afa531998e726394dd4b1bdc00373257"
+                    }
+                },
+                {
+                    "client_id": "405353621586-lmfq0kh42a50jqbav04lf253en062uvj.apps.googleusercontent.com",
+                    "client_type": 3
+                }
+            ],
+            "api_key": [{
+                "current_key": "AIzaSyCoP8VRpQnwEAvg8CnHPeqccz35hMbO270"
+            }],
+            "services": {
+                "appinvite_service": {
+                    "other_platform_oauth_client": [{
+                        "client_id": "405353621586-lmfq0kh42a50jqbav04lf253en062uvj.apps.googleusercontent.com",
+                        "client_type": 3
+                    }]
+                }
+            }
         }
-      }
-    }
-  ],
-  "configuration_version": "1"
+    ],
+    "configuration_version": "1"
 }
