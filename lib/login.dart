@@ -1,11 +1,132 @@
 import 'package:flutter/material.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 class Loginpage extends StatefulWidget {
   @override
   State createState() => new LoginPageState();
 }
 
-class LoginPageState extends State<Loginpage> {
+enum AuthStatus{
+  notSignedIn,
+  signedIn,
+}
+
+class LoginPageState extends State<Loginpage> with SingleTickerProviderStateMixin{
+
+  AuthStatus authStatus = AuthStatus.notSignedIn;
+  String phoneNo;
+  String smsCode;
+  String verificationId;
+  final _formKey = GlobalKey<FormState>();
+  final myController = TextEditingController();
+  String signedPhone;
+  AnimationController _iconAnimationController;
+  Animation<double> _iconAnimation;
+
+  getUser(String phone) async{
+      ///fetch user from API according to his phone number
+  }
+
+  signIn(String smsCode) async {
+    final AuthCredential credential = PhoneAuthProvider.getCredential(
+      verificationId: verificationId,
+      smsCode: smsCode,
+    );
+    final FirebaseUser user = (await FirebaseAuth.instance.signInWithCredential(credential)).user;
+    final FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
+    assert(user.uid == currentUser.uid);
+    smsCode = '';
+  }
+
+  Future<bool> smsCodeDialog(BuildContext context){
+    return showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context){
+          return new AlertDialog(
+            title: Text('Enter the OTP'),
+            content: TextField(
+              onChanged: (value){
+                this.smsCode = value;
+              },
+            ),
+            contentPadding: EdgeInsets.all(10.0),
+            actions: <Widget>[
+              new FlatButton(
+                  onPressed: (){
+                    FirebaseAuth.instance.currentUser().then((user){
+                      if(user != null){
+                        Navigator.of(context).pop();
+                      }
+                      else{
+                        Navigator.of(context).pop();
+                        signIn(smsCode);
+                      }
+                    });
+                  },
+                  child: Text('Done')
+              )
+            ],
+          );
+        }
+    );
+  }
+
+  @override
+  void initState(){
+    FirebaseAuth.instance.currentUser().then((userId){
+      setState(() {
+        authStatus = userId == null ? AuthStatus.notSignedIn : AuthStatus.signedIn;
+        if(userId != null){
+          List newPh = userId.phoneNumber.split("+91");
+          signedPhone = newPh[1];
+          getUser(signedPhone);
+        }
+      });
+    });
+    myController.text = '+91';
+    super.initState();
+    _iconAnimationController = new AnimationController
+      (vsync: this,
+        duration: new Duration(microseconds: 500)
+    );
+    _iconAnimation = new CurvedAnimation(
+        parent: _iconAnimationController,
+        curve: Curves.easeOut
+    );
+    _iconAnimation.addListener(()=> this.setState((){}));
+    _iconAnimationController.forward();
+  }
+
+    Future<void> verifyPhone() async{
+      String phone = myController.text;
+      String searchPhone = myController.text;
+      List newPh = searchPhone.split("+91");
+      String sendPhone = newPh[1];
+      print(sendPhone);
+      print(phone);
+      // _onLoading();
+      final PhoneCodeAutoRetrievalTimeout autoRetrieve = (String verId){
+        this.verificationId = verId;
+      };
+      final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeResend]){
+
+        this.verificationId = verId;
+        smsCodeDialog(context).then((value){
+          getUser(sendPhone);
+          print('Signed In');
+        });
+      };
+
+      final PhoneVerificationCompleted verifiedSuccess = (AuthCredential credential){
+          print(credential);
+          getUser(sendPhone);
+          print('Verified');
+      };
+      final PhoneVerificationFailed failed = (AuthException exception){
+        print('${exception.message}');
+      };
+      await FirebaseAuth.instance.verifyPhoneNumber(phoneNumber: phone, timeout: const Duration(seconds: 5), verificationCompleted: verifiedSuccess, verificationFailed: failed, codeSent: smsCodeSent, codeAutoRetrievalTimeout: autoRetrieve);
+    }
 
     Widget horizontalLine() =>
       Padding(
@@ -90,7 +211,11 @@ class LoginPageState extends State<Loginpage> {
               padding: EdgeInsets.only(top: 15.0),
             ),
             new RaisedButton(
-              onPressed: (){},
+              onPressed: (){
+                if(_formKey.currentState.validate()){
+                  verifyPhone();
+                }
+              },
               padding: EdgeInsets.only(),
               color: Colors.white,
               child: Text('Sign in', style:TextStyle(color: Colors.black)),
