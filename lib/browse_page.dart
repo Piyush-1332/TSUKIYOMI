@@ -2,13 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class Browse extends StatelessWidget {
-  MediaQueryData queryData;
+class Browse extends StatelessWidget { 
   @override
   Widget build(BuildContext context) {
-    queryData = MediaQuery.of(context);
+    Size screenSize = MediaQuery.of(context).size;
     return Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -19,16 +17,6 @@ class Browse extends StatelessWidget {
         ),
         child: ListView(
           children: <Widget>[
-            Container(
-                  padding: EdgeInsets.all(20.0),
-                  height: 20.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Icon(FontAwesomeIcons.gamepad),
-                    ],
-                  ),
-                ),
             SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
@@ -54,7 +42,7 @@ class Browse extends StatelessWidget {
                         borderRadius: BorderRadius.circular(5.0)),
                     clipBehavior: Clip.antiAlias,
                     child: Container(
-                      width: (queryData.size.width - 30),
+                      width: (screenSize.width - 30),
                       height: 50.0,
                       color: Colors.white,
                       child: Row(
