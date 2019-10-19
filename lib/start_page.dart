@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tsukiyomi/home_page.dart';
 import 'package:tsukiyomi/browse_page.dart';
 import 'package:tsukiyomi/library_page.dart';
-import 'package:tsukiyomi/detail_page.dart';
-
+import 'package:tsukiyomi/more_page.dart';
 class Start extends StatefulWidget {
   @override
   _StartState createState() => _StartState();
@@ -73,7 +72,7 @@ Widget show(int index) {
       return Library();
       break;
     case 3:
-      return Detail();
+      return More();
       break;
     default:
       return Homepage();
