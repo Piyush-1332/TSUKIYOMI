@@ -1,4 +1,0 @@
-#Sun Oct 06 18:34:18 IST 2019
-base.0=C\:\\Users\\SAI\\Documents\\PROJECTS\\TSUKIYOMI\\tsukiyomi\\build\\app\\intermediates\\transforms\\dexMerger\\debug\\0
-path.0=classes.dex
-renamed.0=classes.dex
