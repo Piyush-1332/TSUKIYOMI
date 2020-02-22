@@ -29,10 +29,16 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  flutter_launcher_icons: "^0.7.3"
+  
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+
+flutter_icons:
+  android: "launcher_icon" 
+  ios: true
+  image_path: "assets/icon.png"
 
 # The following section is specific to Flutter.
 flutter:
@@ -42,18 +48,7 @@ flutter:
         - asset: assets/fonts/Gtek_Technology.ttf
     - family: Mozart
       fonts:
-        - asset: assets/fonts/MozartNbp-93Ey.ttf
-    - family: WorkSansSemiBold
-      fonts:
-        - asset: assets/fonts/Work_Sans/WorkSans-SemiBold.ttf
-
-    - family: WorkSansBold
-      fonts:
-        - asset: assets/fonts/Work_Sans/WorkSans-Bold.ttf
-
-    - family: WorkSansMedium
-      fonts:
-        - asset: assets/fonts/Work_Sans/WorkSans-Medium.ttf    
+        - asset: assets/fonts/MozartNbp-93Ey.ttf   
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
