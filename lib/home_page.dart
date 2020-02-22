@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tsukiyomi/detail_page.dart';
 import 'random_generator.dart';
 
-class Homepage extends StatelessWidget {
+class Homepage extends StatefulWidget {
+  @override
+  _HomepageState createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -20,17 +25,7 @@ class Homepage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.all(20.0),
-                  height: 20.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Icon(FontAwesomeIcons.gamepad),
-                    ],
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.fromLTRB(20.0, 45.0, 0.0, 0.0),
+                  padding: EdgeInsets.fromLTRB(20.0, 50.0, 0.0, 0.0),
                   height: 100.0,
                   child: Column(
                     children: <Widget>[
@@ -45,21 +40,34 @@ class Homepage extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  height: 160.0,
+                  height: 130.0,
                   child: ListView.builder(
                     itemCount: 10,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, int index) {
                       return Column(
                         children: <Widget>[
-                          SizedBox(
-                            height: 120.0,
-                            width: 145.0,
-                            child: Image.network(
-                              "https://tsukiyomi.herokuapp.com/Images/image${getRandom()}.jpg",
-                              fit: BoxFit.fitHeight,
+                          Expanded(
+                            child: new GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute<Null>(
+                                    builder: (BuildContext context) {
+                                      return new Detail(index: getRandom());
+                                    },
+                                  ),
+                                );
+                              },
+                              child: SizedBox(
+                                height: 200.0,
+                                width: 150.0,
+                                child: Image.network(
+                                  "https://tsukiyomi.herokuapp.com/Images/image${getRandom()}.jpg",
+                                  fit: BoxFit.fitHeight,
+                                ),
+                              ),
                             ),
-                          )
+                          ),
                         ],
                       );
                     },
@@ -67,8 +75,8 @@ class Homepage extends StatelessWidget {
                 ),
                 /*comment*/
                 Container(
-                  padding: EdgeInsets.fromLTRB(20.0, 20.0, 0.0, 0.0),
-                  height: 70.0,
+                  padding: EdgeInsets.fromLTRB(20.0, 50.0, 0.0, 0.0),
+                  height: 100.0,
                   child: Column(
                     children: <Widget>[
                       Text(
@@ -83,19 +91,32 @@ class Homepage extends StatelessWidget {
                 ),
                 /*comment*/
                 Container(
-                  height: 270.0,
+                  height: 220.0,
                   child: ListView.builder(
                     itemCount: 10,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, int index) {
                       return Column(
                         children: <Widget>[
-                          SizedBox(
-                            height: 230.0,
-                            width: 280.0,
-                            child: Image.network(
-                              "https://tsukiyomi.herokuapp.com/Images/image${getRandom()}.jpg",
-                              fit: BoxFit.fitHeight,
+                          Expanded(
+                            child: new GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute<Null>(
+                                    builder: (BuildContext context) {
+                                      return new Detail(index: getRandom());
+                                    },
+                                  ),
+                                );
+                              },
+                              child: SizedBox(
+                                height: 150.0,
+                                width: 240.0,
+                                child: Image.network(
+                                  "https://tsukiyomi.herokuapp.com/Images/image${getRandom()}.jpg",
+                                  fit: BoxFit.fitHeight,
+                                ),
+                              ),
                             ),
                           )
                         ],
@@ -104,8 +125,8 @@ class Homepage extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.fromLTRB(20.0, 20.0, 0.0, 0.0),
-                  height: 80.0,
+                  padding: EdgeInsets.fromLTRB(20.0, 50.0, 0.0, 0.0),
+                  height: 100.0,
                   child: Column(
                     children: <Widget>[
                       Text(
@@ -120,21 +141,33 @@ class Homepage extends StatelessWidget {
                 ),
                 /*comment*/
                 Container(
-                  height: 200.0,
+                  height: 185.0,
                   child: ListView.builder(
                     itemCount: 10,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, int index) {
                       return Column(
                         children: <Widget>[
-                          SizedBox(
-                            height: 170.0,
-                            width: 210.0,
-                            child: Image.network(
-                              "https://tsukiyomi.herokuapp.com/Images/image${getRandom()}.jpg",
-                              fit: BoxFit.fitHeight,
+                          Expanded(
+                              child: new GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute<Null>(
+                                  builder: (BuildContext context) {
+                                    return new Detail(index: getRandom());
+                                  },
+                                ),
+                              );
+                            },
+                            child: SizedBox(
+                              height: 170.0,
+                              width: 205.0,
+                              child: Image.network(
+                                "https://tsukiyomi.herokuapp.com/Images/image${getRandom()}.jpg",
+                                fit: BoxFit.contain,
+                              ),
                             ),
-                          )
+                          ))
                         ],
                       );
                     },

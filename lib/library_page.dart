@@ -31,6 +31,7 @@ class _LibraryState extends State<Library> with SingleTickerProviderStateMixin {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           bottomOpacity: 0.5,
           bottom: TabBar(
             indicator: UnderlineTabIndicator(

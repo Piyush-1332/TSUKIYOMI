@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:tsukiyomi/home_page.dart';
 import 'package:tsukiyomi/browse_page.dart';
 import 'package:tsukiyomi/library_page.dart';
-import 'package:tsukiyomi/login2.dart';
+import 'package:tsukiyomi/more_page.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Start extends StatefulWidget {
   @override
@@ -41,6 +42,21 @@ class _StartState extends State<Start> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(
+          top: 135.0,
+        ),
+        child: FloatingActionButton(
+          elevation: 0.0,
+          mini: true,
+          splashColor: Color.fromRGBO(255, 255, 255, 0),
+          child: Center(child: Icon(FontAwesomeIcons.gamepad)),
+          onPressed: () => print('open emulator'),
+          foregroundColor: Colors.red,
+          backgroundColor: Color.fromRGBO(255, 255, 255, 0),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       key: scaffoldKey,
       body: WillPopScope(onWillPop: () => _onBackPressed(), child: show(index)),
       bottomNavigationBar: Theme(
@@ -95,7 +111,7 @@ Widget show(int index) {
       return Library();
       break;
     case 3:
-      return LoginScreen3();
+      return More();
       break;
     default:
       return Homepage();

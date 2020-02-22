@@ -9,7 +9,7 @@ class Browse extends StatelessWidget {
   MediaQueryData queryData;
   @override
   Widget build(BuildContext context) {
-    queryData = MediaQuery.of(context);
+    Size screenSize = MediaQuery.of(context).size;
     return Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -20,16 +20,6 @@ class Browse extends StatelessWidget {
         ),
         child: ListView(
           children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(20.0),
-              height: 20.0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Icon(FontAwesomeIcons.gamepad),
-                ],
-              ),
-            ),
             SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
@@ -55,7 +45,7 @@ class Browse extends StatelessWidget {
                         borderRadius: BorderRadius.circular(5.0)),
                     clipBehavior: Clip.antiAlias,
                     child: Container(
-                      width: (queryData.size.width - 30),
+                      width: (screenSize.width - 30),
                       height: 50.0,
                       color: Colors.white,
                       child: Row(
@@ -108,7 +98,7 @@ class Browse extends StatelessWidget {
                                     clipBehavior: Clip.antiAlias,
                                     child: Image.network(
                                       "https://tsukiyomi.herokuapp.com/Images/image${getRandom()}.jpg",
-                                      fit: BoxFit.fitHeight,
+                                      fit: BoxFit.fill,
                                     ),
                                   ),
                                 ),
@@ -154,7 +144,7 @@ class Browse extends StatelessWidget {
                                     clipBehavior: Clip.antiAlias,
                                     child: Image.network(
                                       "https://tsukiyomi.herokuapp.com/Images/image${getRandom()}.jpg",
-                                      fit: BoxFit.fitHeight,
+                                      fit: BoxFit.fill,
                                     ),
                                   ),
                                 ),
