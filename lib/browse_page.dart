@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'random_generator.dart';
 
 class Browse extends StatelessWidget {
   MediaQueryData queryData;
@@ -20,15 +21,15 @@ class Browse extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             Container(
-                  padding: EdgeInsets.all(20.0),
-                  height: 20.0,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Icon(FontAwesomeIcons.gamepad),
-                    ],
-                  ),
-                ),
+              padding: EdgeInsets.all(20.0),
+              height: 20.0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Icon(FontAwesomeIcons.gamepad),
+                ],
+              ),
+            ),
             SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Column(
@@ -106,8 +107,8 @@ class Browse extends StatelessWidget {
                                             BorderRadius.circular(10.0)),
                                     clipBehavior: Clip.antiAlias,
                                     child: Image.network(
-                                      'https://www.mobygames.com/images/covers/l/55382-super-mario-advance-4-super-mario-bros-3-game-boy-advance-front-cover.jpg',
-                                      fit: BoxFit.fill,
+                                      "https://tsukiyomi.herokuapp.com/Images/image${getRandom()}.jpg",
+                                      fit: BoxFit.fitHeight,
                                     ),
                                   ),
                                 ),
@@ -152,8 +153,8 @@ class Browse extends StatelessWidget {
                                             BorderRadius.circular(10.0)),
                                     clipBehavior: Clip.antiAlias,
                                     child: Image.network(
-                                      'https://www.mobygames.com/images/covers/l/55382-super-mario-advance-4-super-mario-bros-3-game-boy-advance-front-cover.jpg',
-                                      fit: BoxFit.fill,
+                                      "https://tsukiyomi.herokuapp.com/Images/image${getRandom()}.jpg",
+                                      fit: BoxFit.fitHeight,
                                     ),
                                   ),
                                 ),

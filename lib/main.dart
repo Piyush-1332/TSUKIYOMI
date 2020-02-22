@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tsukiyomi/start_page.dart';
 import 'package:tsukiyomi/login.dart';
+
 void main(List<String> args) {
   runApp(MyApp());
 }
@@ -13,6 +14,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
       home: new Loginpage(),
+      routes: <String, WidgetBuilder>{
+        '/home': (BuildContext context) => Start()
+      },
     );
   }
 }
