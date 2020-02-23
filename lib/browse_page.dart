@@ -129,7 +129,25 @@ class _BrowseState extends State<Browse> {
                                           borderRadius:
                                               BorderRadius.circular(10.0)),
                                       clipBehavior: Clip.antiAlias,
-                                      child: Center(child: Text(item))),
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image:
+                                                  AssetImage("assets/bg2.png"),
+                                              fit: BoxFit.fitWidth,
+                                              alignment: Alignment.topCenter,
+                                            ),
+                                          ),
+                                          child: Center(
+                                              child: Text(
+                                            item,
+                                            style: TextStyle(
+                                                backgroundColor: Colors.white70,
+                                                fontSize: 40.0,
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: 'Mozart',
+                                                color: Colors.black),
+                                          )))),
                                 ),
                               );
                             },
@@ -173,7 +191,25 @@ class _BrowseState extends State<Browse> {
                                           borderRadius:
                                               BorderRadius.circular(10.0)),
                                       clipBehavior: Clip.antiAlias,
-                                      child: Center(child: Text(item['name']))),
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                              image:
+                                                  AssetImage("assets/bg2.png"),
+                                              fit: BoxFit.fitWidth,
+                                              alignment: Alignment.topCenter,
+                                            ),
+                                          ),
+                                          child: Center(
+                                              child: Text(
+                                            item['name'],
+                                            style: TextStyle(
+                                                backgroundColor: Colors.white70,
+                                                fontSize: 40.0,
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: 'Mozart',
+                                                color: Colors.black),
+                                          )))),
                                 ),
                               );
                             },

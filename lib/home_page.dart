@@ -76,11 +76,24 @@ class _HomepageState extends State<Homepage> {
                       ? SizedBox(
                           height: 200.0,
                           width: 150.0,
-                          child: Center(
-                              child: Text(
-                            "Nothing to See Yet",
-                            style: TextStyle(fontSize: 20.0),
-                          )),
+                          child: Container(
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage("assets/bg2.png"),
+                                  fit: BoxFit.fitWidth,
+                                  alignment: Alignment.topCenter,
+                                ),
+                              ),
+                              child: Center(
+                                  child: Text(
+                                "Nothing Yet",
+                                style: TextStyle(
+                                    backgroundColor: Colors.white70,
+                                    fontSize: 30.0,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Mozart',
+                                    color: Colors.black),
+                              ))),
                         )
                       : ListView.builder(
                           itemCount: getLength(widget.user),
