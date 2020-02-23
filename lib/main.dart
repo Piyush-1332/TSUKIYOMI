@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:tsukiyomi/start_page.dart';
 import 'package:tsukiyomi/login.dart';
 
-void main(List<String> args) {
+void main(List<String> args) async {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await FlutterDownloader.initialize();
   runApp(MyApp());
 }
 
@@ -13,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: "Tsukiyomi",
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
-      home: new Loginpage(),
+      home: Loginpage(),
       routes: <String, WidgetBuilder>{
         '/home': (BuildContext context) => Start()
       },

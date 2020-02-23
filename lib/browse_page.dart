@@ -1,12 +1,43 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'random_generator.dart';
+import 'package:http/http.dart' as http;
 
-class Browse extends StatelessWidget {
+class Browse extends StatefulWidget {
+  final dynamic user;
+  Browse({Key key, this.user}) : super(key: key);
+  @override
+  _BrowseState createState() => _BrowseState();
+}
+
+class _BrowseState extends State<Browse> {
+  dynamic genres = [
+    {"name": "Loading"}
+  ];
   MediaQueryData queryData;
+
+  getGenres() async {
+    http.Response resp = await http.get(
+        Uri.encodeFull("https://tsukiyomi.herokuapp.com/api/genre/list/all"));
+    print(resp.body);
+    if (resp.statusCode == 200) {
+      setState(() {
+        genres = jsonDecode(resp.body);
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getGenres();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -79,7 +110,7 @@ class Browse extends StatelessWidget {
                             ),
                           ),
                           GridView.builder(
-                            itemCount: 3,
+                            itemCount: widget.user['genres'].length,
                             gridDelegate:
                                 new SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2),
@@ -87,20 +118,18 @@ class Browse extends StatelessWidget {
                             controller:
                                 ScrollController(keepScrollOffset: false),
                             itemBuilder: (BuildContext context, int index) {
+                              final item = widget.user['genres'][index];
                               return GridTile(
                                 child: Padding(
                                   padding: EdgeInsets.all(10.0),
                                   child: Card(
-                                    margin: EdgeInsets.symmetric(vertical: 0.0),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0)),
-                                    clipBehavior: Clip.antiAlias,
-                                    child: Image.network(
-                                      "https://tsukiyomi.herokuapp.com/Images/image${getRandom()}.jpg",
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
+                                      margin:
+                                          EdgeInsets.symmetric(vertical: 0.0),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0)),
+                                      clipBehavior: Clip.antiAlias,
+                                      child: Center(child: Text(item))),
                                 ),
                               );
                             },
@@ -125,7 +154,7 @@ class Browse extends StatelessWidget {
                             ),
                           ),
                           GridView.builder(
-                            itemCount: 5,
+                            itemCount: genres.length,
                             gridDelegate:
                                 new SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2),
@@ -133,20 +162,18 @@ class Browse extends StatelessWidget {
                             controller:
                                 ScrollController(keepScrollOffset: false),
                             itemBuilder: (BuildContext context, int index) {
+                              final item = genres[index];
                               return GridTile(
                                 child: Padding(
                                   padding: EdgeInsets.all(10.0),
                                   child: Card(
-                                    margin: EdgeInsets.symmetric(vertical: 0.0),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10.0)),
-                                    clipBehavior: Clip.antiAlias,
-                                    child: Image.network(
-                                      "https://tsukiyomi.herokuapp.com/Images/image${getRandom()}.jpg",
-                                      fit: BoxFit.fill,
-                                    ),
-                                  ),
+                                      margin:
+                                          EdgeInsets.symmetric(vertical: 0.0),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0)),
+                                      clipBehavior: Clip.antiAlias,
+                                      child: Center(child: Text(item['name']))),
                                 ),
                               );
                             },

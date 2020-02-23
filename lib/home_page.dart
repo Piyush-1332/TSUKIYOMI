@@ -1,14 +1,45 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:tsukiyomi/detail_page.dart';
 import 'random_generator.dart';
+import 'package:http/http.dart' as http;
 
 class Homepage extends StatefulWidget {
+  final dynamic user;
+  Homepage({Key key, this.user}) : super(key: key);
   @override
   _HomepageState createState() => _HomepageState();
 }
 
 class _HomepageState extends State<Homepage> {
+  getLength(dynamic user) {
+    if (user.containsKey('user_history'))
+      return user['user_history'].length;
+    else
+      return 0;
+  }
+
+  dynamic recommended = [{}];
+  getRecommendedRoms(dynamic phone) async {
+    http.Response recommended_resp = await http.get(Uri.encodeFull(
+        "https://tsukiyomi.herokuapp.com/api/user/recommended/$phone"));
+    print(recommended_resp.body);
+    if (recommended_resp.statusCode == 200) {
+      setState(() {
+        if (jsonDecode(recommended_resp.body).length > 0)
+          recommended = jsonDecode(recommended_resp.body);
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getRecommendedRoms(widget.user['phone']);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -41,37 +72,50 @@ class _HomepageState extends State<Homepage> {
                 ),
                 Container(
                   height: 130.0,
-                  child: ListView.builder(
-                    itemCount: 10,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Column(
-                        children: <Widget>[
-                          Expanded(
-                            child: new GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute<Null>(
-                                    builder: (BuildContext context) {
-                                      return new Detail(index: getRandom());
+                  child: getLength(widget.user) == 0
+                      ? SizedBox(
+                          height: 200.0,
+                          width: 150.0,
+                          child: Center(
+                              child: Text(
+                            "Nothing to See Yet",
+                            style: TextStyle(fontSize: 20.0),
+                          )),
+                        )
+                      : ListView.builder(
+                          itemCount: getLength(widget.user),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (BuildContext context, int index) {
+                            final item = widget.user.user_history[index];
+                            return Column(
+                              children: <Widget>[
+                                Expanded(
+                                  child: new GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute<Null>(
+                                          builder: (BuildContext context) {
+                                            return new Detail(
+                                                index: item.refid,
+                                                user: widget.user);
+                                          },
+                                        ),
+                                      );
                                     },
+                                    child: SizedBox(
+                                      height: 200.0,
+                                      width: 150.0,
+                                      child: Image.network(
+                                        "${item.thumnail}",
+                                        fit: BoxFit.fitHeight,
+                                      ),
+                                    ),
                                   ),
-                                );
-                              },
-                              child: SizedBox(
-                                height: 200.0,
-                                width: 150.0,
-                                child: Image.network(
-                                  "https://tsukiyomi.herokuapp.com/Images/image${getRandom()}.jpg",
-                                  fit: BoxFit.fitHeight,
                                 ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  ),
+                              ],
+                            );
+                          },
+                        ),
                 ),
                 /*comment*/
                 Container(
@@ -93,34 +137,65 @@ class _HomepageState extends State<Homepage> {
                 Container(
                   height: 220.0,
                   child: ListView.builder(
-                    itemCount: 10,
+                    itemCount: recommended.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (BuildContext context, int index) {
-                      return Column(
-                        children: <Widget>[
-                          Expanded(
-                            child: new GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute<Null>(
-                                    builder: (BuildContext context) {
-                                      return new Detail(index: getRandom());
-                                    },
+                      if (recommended[index].containsKey('refid')) {
+                        var item = recommended[index];
+                        return Column(
+                          children: <Widget>[
+                            Expanded(
+                              child: new GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute<Null>(
+                                      builder: (BuildContext context) {
+                                        return new Detail(
+                                            index: item['refid'],
+                                            user: widget.user);
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: SizedBox(
+                                  height: 150.0,
+                                  width: 240.0,
+                                  child: Image.network(
+                                    "https://tsukiyomi.herokuapp.com/Images/image${item['refid']}.jpg",
+                                    fit: BoxFit.fitHeight,
                                   ),
-                                );
-                              },
-                              child: SizedBox(
-                                height: 150.0,
-                                width: 240.0,
-                                child: Image.network(
-                                  "https://tsukiyomi.herokuapp.com/Images/image${getRandom()}.jpg",
-                                  fit: BoxFit.fitHeight,
                                 ),
                               ),
-                            ),
-                          )
-                        ],
-                      );
+                            )
+                          ],
+                        );
+                      } else
+                        return Column(
+                          children: <Widget>[
+                            Expanded(
+                              child: new GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute<Null>(
+                                      builder: (BuildContext context) {
+                                        return new Detail(
+                                            index: index, user: widget.user);
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: SizedBox(
+                                  height: 150.0,
+                                  width: 240.0,
+                                  child: Image.network(
+                                    "https://tsukiyomi.herokuapp.com/Images/image${index}.jpg",
+                                    fit: BoxFit.fitHeight,
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        );
                     },
                   ),
                 ),
@@ -154,7 +229,8 @@ class _HomepageState extends State<Homepage> {
                               Navigator.of(context).push(
                                 MaterialPageRoute<Null>(
                                   builder: (BuildContext context) {
-                                    return new Detail(index: getRandom());
+                                    return new Detail(
+                                        index: index, user: widget.user);
                                   },
                                 ),
                               );
@@ -163,7 +239,7 @@ class _HomepageState extends State<Homepage> {
                               height: 170.0,
                               width: 205.0,
                               child: Image.network(
-                                "https://tsukiyomi.herokuapp.com/Images/image${getRandom()}.jpg",
+                                "https://tsukiyomi.herokuapp.com/Images/image$index.jpg",
                                 fit: BoxFit.contain,
                               ),
                             ),

@@ -1,10 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:platform/platform.dart';
+import 'package:android_intent/android_intent.dart';
+import 'package:device_apps/device_apps.dart';
 
 class Detail extends StatefulWidget {
   final int index;
-  Detail({Key key, this.index}) : super(key: key);
+  final dynamic user;
+  Detail({Key key, this.index, this.user}) : super(key: key);
   @override
   _DetailState createState() => new _DetailState();
 }
@@ -13,10 +19,11 @@ class _DetailState extends State<Detail> {
   String name = "Loading";
   String description = "Loading";
   String thumbnail = "Loading";
-
+  Color isFavorite;
+  dynamic rom;
   void initState() {
-    getRomData();
     super.initState();
+    getRomData();
   }
 
   getRomData() async {
@@ -26,10 +33,69 @@ class _DetailState extends State<Detail> {
       print(response.body);
       dynamic jsonParsed = jsonDecode(response.body);
       setState(() {
+        rom = jsonParsed;
         name = jsonParsed['name'];
         description = jsonParsed['name'];
         thumbnail = jsonParsed['thumbnail'];
       });
+      http.Response liked = await http.get(Uri.encodeFull(
+          "https://tsukiyomi.herokuapp.com/api/user/favorite/${widget.user['phone']}/${jsonParsed['_id']}"));
+      if (liked.statusCode == 200) {
+        print(liked.body);
+        dynamic fav = jsonDecode(liked.body);
+        setState(() {
+          if (fav == true)
+            isFavorite = Colors.red;
+          else
+            isFavorite = null;
+        });
+      }
+    }
+  }
+
+  addToFavorites() async {
+    int phone = widget.user['phone'];
+    String phoneStr = phone.toString();
+    Map data = {
+      'update': 'favorite',
+      "favorite": rom,
+    };
+    var body = jsonEncode(data);
+    http.Response user = await http.put(
+        Uri.encodeFull(
+            "https://tsukiyomi.herokuapp.com/api/user/edit/$phoneStr"),
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        body: body);
+    if (user.statusCode == 200) {
+      dynamic jsonParsed = jsonDecode(user.body);
+      print(jsonParsed);
+      setState(() {
+        if (jsonParsed['liked'])
+          isFavorite = Colors.red;
+        else
+          isFavorite = null;
+      });
+    }
+  }
+
+  androidIntent() async {
+    bool isInstalled = await DeviceApps.isAppInstalled('com.fastemulator.gba');
+    if (isInstalled) {
+      DeviceApps.openApp('com.fastemulator.gba');
+    } else {
+      if (const LocalPlatform().isAndroid) {
+        final AndroidIntent intent = AndroidIntent(
+            action: 'action_view',
+            data: Uri.encodeFull(
+                "https://tsukiyomi.herokuapp.com/apk/emulator.apk"),
+            package:
+                "com.android.chrome.implicit.fallback" // replace com.example.app with your applicationId
+            );
+        await intent.launch();
+      }
     }
   }
 
@@ -130,7 +196,7 @@ class _DetailState extends State<Detail> {
                                   children: <Widget>[
                                     FlatButton(
                                       textColor: Colors.white70,
-                                      onPressed: () => print('My Favourite'),
+                                      onPressed: () => addToFavorites(),
                                       child: Container(
                                         height: 50.0,
                                         child: Column(
@@ -139,6 +205,7 @@ class _DetailState extends State<Detail> {
                                           children: <Widget>[
                                             Icon(
                                               Icons.favorite,
+                                              color: isFavorite,
                                               size: 32.0,
                                             ),
                                             Text(
@@ -151,7 +218,7 @@ class _DetailState extends State<Detail> {
                                     ),
                                     FlatButton(
                                       textColor: Colors.white70,
-                                      onPressed: () => print('Play/Download'),
+                                      onPressed: () => androidIntent(),
                                       child: Container(
                                         height: 50.0,
                                         child: Column(

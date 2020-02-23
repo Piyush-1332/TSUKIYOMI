@@ -1,7 +1,9 @@
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'start_page.dart';
+import 'package:dotted_border/dotted_border.dart';
 
 class Loginpage extends StatefulWidget {
   @override
@@ -19,14 +21,33 @@ class LoginPageState extends State<Loginpage>
   String phoneNo;
   String smsCode;
   String verificationId;
+  dynamic user_details;
+
   final _formKey = GlobalKey<FormState>();
   final myController = TextEditingController();
   String signedPhone;
   AnimationController _iconAnimationController;
   Animation<double> _iconAnimation;
-
   getUser(String phone) async {
-    print(phone);
+    http.Response user = await http.post(
+        Uri.encodeFull("https://tsukiyomi.herokuapp.com/api/user/create"),
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: {
+          "phone": phone
+        });
+    if (user.statusCode == 200) {
+      print(user.body);
+    }
+    var route = new MaterialPageRoute(
+      builder: (BuildContext context) => new Start(phone: phone),
+    );
+    Navigator.pop(context);
+    Navigator.of(context).push(route);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(phone, phone);
 
     ///fetch user from API according to his phone number
   }
@@ -76,6 +97,7 @@ class LoginPageState extends State<Loginpage>
 
   @override
   void initState() {
+    super.initState();
     FirebaseAuth.instance.currentUser().then((userId) {
       setState(() {
         authStatus =
@@ -88,7 +110,6 @@ class LoginPageState extends State<Loginpage>
       });
     });
     myController.text = '+91';
-    super.initState();
     _iconAnimationController = new AnimationController(
         vsync: this, duration: new Duration(microseconds: 500));
     _iconAnimation = new CurvedAnimation(
@@ -97,14 +118,30 @@ class LoginPageState extends State<Loginpage>
     _iconAnimationController.forward();
   }
 
+  void _onLoading() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => new Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          new CircularProgressIndicator(),
+        ],
+      ),
+    );
+  }
+
+  getPhone() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString("phone");
+  }
+
   Future<void> verifyPhone() async {
     String phone = myController.text;
     String searchPhone = myController.text;
     List newPh = searchPhone.split("+91");
     String sendPhone = newPh[1];
     print(sendPhone);
-    print(phone);
-    // _onLoading();
     final PhoneCodeAutoRetrievalTimeout autoRetrieve = (String verId) {
       this.verificationId = verId;
     };
@@ -112,17 +149,16 @@ class LoginPageState extends State<Loginpage>
       this.verificationId = verId;
       smsCodeDialog(context).then((value) {
         getUser(sendPhone);
-        print('Signed In');
-        Navigator.pop(context);
-        Navigator.of(context).pushNamed('/home');
+        print('Otp Login');
       });
     };
 
     final PhoneVerificationCompleted verifiedSuccess =
         (AuthCredential credential) {
       // print(credential);
+      _onLoading();
       getUser(sendPhone);
-      print('Verified');
+      print('Auto Logged In');
     };
     final PhoneVerificationFailed failed = (AuthException exception) {
       print('${exception.message}');
@@ -148,72 +184,81 @@ class LoginPageState extends State<Loginpage>
   @override
   Widget build(BuildContext context) {
     var screensize = MediaQuery.of(context).size;
-    print(authStatus);
-    if (authStatus == AuthStatus.signedIn) {
-      return Start();
-    }
-    return Scaffold(
-      body: Container(
-          child: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          Image(
-            image: new AssetImage("assets/bg.jpg"),
-            fit: BoxFit.cover,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+    switch (authStatus) {
+      case AuthStatus.notSignedIn:
+        return Scaffold(
+          body: Container(
+              child: Stack(
+            fit: StackFit.expand,
             children: <Widget>[
-              Container(
-                child: Text('Tsukiyomi',
-                    style: TextStyle(
-                        fontSize: 50.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black)),
+              Image(
+                image: new AssetImage("assets/bg1.png"),
+                fit: BoxFit.cover,
               ),
-              SizedBox(
-                height: screensize.height / 14,
-              ),
-              Container(
-                child: Padding(
-                  padding: EdgeInsets.only(),
-                  child: TextField(
-                    controller: myController,
-                    style: TextStyle(color: Theme.of(context).accentColor),
-                    decoration: InputDecoration(
-                      hintText: 'Email-Id',
-                      enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Theme.of(context).accentColor,
-                              width: 1.0)),
-                      focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Theme.of(context).accentColor,
-                              width: 1.0)),
-                      prefixIcon: const Icon(
-                        Icons.phone,
-                        color: Colors.white,
-                      ),
-                    ),
-                    obscureText: false,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(top: 70.0),
                   ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 15.0),
-              ),
-              new RaisedButton(
-                onPressed: () {
-                  print(verifyPhone());
-                },
-                padding: EdgeInsets.only(),
-                color: Colors.white,
-                child: Text('Sign in', style: TextStyle(color: Colors.black)),
+                  Container(
+                    child: Text('Tsukiyomi',
+                        style: TextStyle(
+                            fontFamily: 'Mozart',
+                            fontSize: 80.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white)),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: screensize.height - 600),
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 80.0, right: 80.0),
+                      child: DottedBorder(
+                          dashPattern: [8, 3, 2, 3],
+                          strokeWidth: 2.0,
+                          color: Colors.red[900],
+                          borderType: BorderType.RRect,
+                          radius: Radius.circular(12),
+                          child: ClipRRect(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
+                              child: TextField(
+                                controller: myController,
+                                style: TextStyle(color: Colors.black),
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  hintText: 'Phone',
+                                  prefixIcon: const Icon(
+                                    Icons.phone,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                                obscureText: false,
+                              ))),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 15.0),
+                  ),
+                  new RaisedButton(
+                    onPressed: () {
+                      print(verifyPhone());
+                    },
+                    padding: EdgeInsets.only(),
+                    color: Colors.red[900],
+                    child:
+                        Text('Sign in', style: TextStyle(color: Colors.white)),
+                  ),
+                ],
               ),
             ],
-          ),
-        ],
-      )),
-    );
+          )),
+        );
+      case AuthStatus.signedIn:
+        return Start(phone: getPhone());
+    }
   }
 }
